@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Dappier Git Hook - Automatic Branch Name Prepend
+# Prepends branch name to commit messages (e.g., feat/DP-1234: initial commit)
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# Exit if this is an amend, merge, or squash
+if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ]; then
+    exit 0
+fi
+
+# Get the current branch name
+BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Exit if we couldn't get branch name
+if [ -z "$BRANCH_NAME" ]; then
+    exit 0
+fi
+
+# Skip if on main, master, develop, or release branches
+if [[ "$BRANCH_NAME" =~ ^(main|master|develop|release/.*)$ ]]; then
+    exit 0
+fi
+
+# Read the current commit message
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Check if the message already starts with the branch name
+if [[ "$COMMIT_MSG" == "$BRANCH_NAME:"* ]]; then
+    exit 0
+fi
+
+# Check if the message already has a branch prefix pattern (to avoid double prefixing)
+if [[ "$COMMIT_MSG" =~ ^[a-zA-Z0-9/_-]+:[[:space:]] ]]; then
+    exit 0
+fi
+
+# Skip if this is a default git message (like merge messages)
+if [[ "$COMMIT_MSG" =~ ^Merge[[:space:]] ]] || [[ "$COMMIT_MSG" =~ ^Revert[[:space:]] ]]; then
+    exit 0
+fi
+
+# Prepend branch name to commit message
+echo "$BRANCH_NAME: $COMMIT_MSG" > "$COMMIT_MSG_FILE"
