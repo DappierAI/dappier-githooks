@@ -18,7 +18,21 @@ feat/DP-1234: initial commit
 
 ## 🚀 Quick Start
 
-### macOS / Linux
+### ⚡ Easiest Installation (Copy & Paste)
+
+#### macOS / Linux
+```bash
+bash <(curl -s https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.sh)
+```
+
+#### Windows (PowerShell)
+```powershell
+iex (iwr -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.ps1").Content
+```
+
+### Traditional Installation
+
+#### macOS / Linux
 
 ```bash
 # Navigate to your git repository
@@ -38,7 +52,7 @@ chmod +x install.sh
 ./install.sh
 ```
 
-### Windows (PowerShell)
+#### Windows (PowerShell)
 
 ```powershell
 # Navigate to your git repository
@@ -56,6 +70,18 @@ cd dappier-githooks
 .\install.ps1
 ```
 
+### ✅ That's it!
+
+Now when you commit:
+```bash
+git commit -m "initial commit"
+```
+
+On branch `feat/DP-1234`, it becomes:
+```
+feat/DP-1234: initial commit
+```
+
 ## 📋 Requirements
 
 - Git installed on your system
@@ -70,7 +96,7 @@ The installer creates a `prepare-commit-msg` hook in your repository's `.git/hoo
 1. **Extracts** the current branch name
 2. **Checks** if the commit message already has a prefix
 3. **Prepends** the branch name to your commit message
-4. **Skips** protected branches (main, master, develop, release/*)
+4. **Skips** protected branches (dev, dev2, staging, production)
 
 ## 🎨 Features
 
@@ -108,10 +134,10 @@ git commit -m "update version"
 ## 🛡️ Protected Branches
 
 The hook will **not** add prefixes on these branches:
-- `main`
-- `master`
-- `develop`
-- `release/*` (any release branch)
+- `dev`
+- `dev2`
+- `staging`
+- `production`
 
 ## 🔧 Manual Installation
 

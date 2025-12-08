@@ -58,8 +58,8 @@ if [ -z "$BRANCH_NAME" ]; then
     exit 0
 fi
 
-# Skip if on main, master, develop, or release branches
-if [[ "$BRANCH_NAME" =~ ^(main|master|develop|release/.*)$ ]]; then
+# Skip if on dev, dev2, staging, or production branches
+if [[ "$BRANCH_NAME" =~ ^(dev|dev2|staging|production)$ ]]; then
     exit 0
 fi
 
@@ -97,6 +97,6 @@ echo "• When you commit with: git commit -m \"initial commit\""
 echo "• On branch: feat/DP-1234"
 echo "• Your commit message becomes: \"feat/DP-1234: initial commit\""
 echo ""
-echo -e "${YELLOW}Note:${NC} Hooks are ignored on main, master, develop, and release branches"
+echo -e "${YELLOW}Note:${NC} Hooks are ignored on dev, dev2, staging, and production branches"
 echo ""
 echo -e "${GREEN}Installation complete! Happy committing! 🚀${NC}"

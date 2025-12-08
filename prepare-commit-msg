@@ -20,8 +20,8 @@ if [ -z "$BRANCH_NAME" ]; then
     exit 0
 fi
 
-# Skip if on main, master, develop, or release branches
-if [[ "$BRANCH_NAME" =~ ^(main|master|develop|release/.*)$ ]]; then
+# Skip if on dev, dev2, staging, or production branches
+if [[ "$BRANCH_NAME" =~ ^(dev|dev2|staging|production)$ ]]; then
     exit 0
 fi
 

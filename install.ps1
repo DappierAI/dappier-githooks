@@ -62,8 +62,8 @@ if [ -z "$BRANCH_NAME" ]; then
     exit 0
 fi
 
-# Skip if on main, master, develop, or release branches
-if [[ "$BRANCH_NAME" =~ ^(main|master|develop|release/.*)$ ]]; then
+# Skip if on dev, dev2, staging, or production branches
+if [[ "$BRANCH_NAME" =~ ^(dev|dev2|staging|production)$ ]]; then
     exit 0
 fi
 
@@ -105,6 +105,6 @@ Write-Host "• On branch: feat/DP-1234"
 Write-Host "• Your commit message becomes: `"feat/DP-1234: initial commit`""
 Write-Host ""
 Write-Host "Note: " -NoNewline -ForegroundColor $YELLOW
-Write-Host "Hooks are ignored on main, master, develop, and release branches"
+Write-Host "Hooks are ignored on dev, dev2, staging, and production branches"
 Write-Host ""
 Write-Host "Installation complete! Happy committing! 🚀" -ForegroundColor $GREEN
