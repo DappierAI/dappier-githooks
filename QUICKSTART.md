@@ -8,7 +8,7 @@
 cd /path/to/your/repo
 
 # 2. Run this one command
-bash <(curl -s https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.sh)
 ```
 
 ### Windows (PowerShell)
@@ -17,7 +17,7 @@ bash <(curl -s https://raw.githubusercontent.com/DappierAI/dappier-githooks/main
 cd C:\path\to\your\repo
 
 # 2. Run this one command
-iex (iwr -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/install.ps1").Content
+iex (iwr -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.ps1").Content
 ```
 
 ## ✅ That's it!

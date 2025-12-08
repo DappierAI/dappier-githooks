@@ -25,7 +25,7 @@ feat/DP-1234: initial commit
 cd /path/to/your/repo
 
 # Download and run the installer
-curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/install.sh
+curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.sh
 chmod +x install.sh
 ./install.sh
 ```
@@ -45,7 +45,7 @@ chmod +x install.sh
 cd C:\path\to\your\repo
 
 # Download and run the installer
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/install.ps1" -OutFile "install.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.ps1" -OutFile "install.ps1"
 .\install.ps1
 ```
 
@@ -120,14 +120,14 @@ If you prefer to install manually:
 ### macOS / Linux
 ```bash
 cd /path/to/your/repo
-curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/.git/hooks/prepare-commit-msg
+curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/.git/hooks/prepare-commit-msg
 chmod +x .git/hooks/prepare-commit-msg
 ```
 
 ### Windows
 ```powershell
 cd C:\path\to\your\repo
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/main/.git/hooks/prepare-commit-msg" -OutFile ".git\hooks\prepare-commit-msg"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/.git/hooks/prepare-commit-msg" -OutFile ".git\hooks\prepare-commit-msg"
 ```
 
 ## 🗑️ Uninstalling
