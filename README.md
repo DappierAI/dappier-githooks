@@ -35,7 +35,6 @@ iex (iwr -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/stag
 #### macOS / Linux
 
 ```bash
-# Navigate to your git repository
 cd /path/to/your/repo
 
 # Download and run the installer
@@ -55,7 +54,6 @@ chmod +x install.sh
 #### Windows (PowerShell)
 
 ```powershell
-# Navigate to your git repository
 cd C:\path\to\your\repo
 
 # Download and run the installer
