@@ -1,4 +1,4 @@
-# Dappier Git Hooks Installer for Windows
+# Dappier Git Hooks Installer for Windows (Global)
 # PowerShell Script
 
 $ErrorActionPreference = "Stop"
@@ -10,24 +10,14 @@ $RED = "Red"
 
 Write-Host "╔════════════════════════════════════════╗" -ForegroundColor $BLUE
 Write-Host "║   Dappier Git Hooks Installer v1.0    ║" -ForegroundColor $BLUE
+Write-Host "║        (Global Installation)           ║" -ForegroundColor $BLUE
 Write-Host "╚════════════════════════════════════════╝" -ForegroundColor $BLUE
 Write-Host ""
 
-# Check if we're in a git repository
-try {
-    $gitDir = git rev-parse --git-dir 2>$null
-    if (-not $gitDir) {
-        throw "Not a git repository"
-    }
-} catch {
-    Write-Host "Error: Not a git repository!" -ForegroundColor $RED
-    Write-Host "Please run this script from the root of your git repository."
-    exit 1
-}
+# Determine global hooks directory for Windows
+$hooksDir = Join-Path $env:APPDATA "Git\hooks"
 
-$hooksDir = Join-Path $gitDir "hooks"
-
-Write-Host "Installing git hooks..." -ForegroundColor $YELLOW
+Write-Host "Installing global git hooks..." -ForegroundColor $YELLOW
 Write-Host ""
 
 # Create hooks directory if it doesn't exist
@@ -91,13 +81,16 @@ echo "$BRANCH_NAME: $COMMIT_MSG" > "$COMMIT_MSG_FILE"
 
 Set-Content -Path $hookFile -Value $hookContent -NoNewline
 
-# Git on Windows uses Git Bash, so the hook should work as-is
-# But we need to ensure it's executable (Git for Windows handles this)
+# Configure git to use the global hooks directory
+git config --global core.hooksPath $hooksDir
 
-Write-Host "✓ Git hooks installed successfully!" -ForegroundColor $GREEN
+Write-Host "✓ Global git hooks installed successfully!" -ForegroundColor $GREEN
 Write-Host ""
 Write-Host "Hook location: " -NoNewline
 Write-Host $hookFile -ForegroundColor $BLUE
+Write-Host ""
+Write-Host "Git config: " -NoNewline
+Write-Host "core.hooksPath configured globally" -ForegroundColor $BLUE
 Write-Host ""
 Write-Host "How it works:" -ForegroundColor $YELLOW
 Write-Host "• When you commit with: git commit -m `"initial commit`""
@@ -107,4 +100,4 @@ Write-Host ""
 Write-Host "Note: " -NoNewline -ForegroundColor $YELLOW
 Write-Host "Hooks are ignored on dev, dev2, staging, and production branches"
 Write-Host ""
-Write-Host "Installation complete! Happy committing! 🚀" -ForegroundColor $GREEN
+Write-Host "Installation complete! This applies to ALL repositories on your system. 🚀" -ForegroundColor $GREEN

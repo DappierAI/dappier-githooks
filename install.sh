@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Dappier Git Hooks Installer
+# Dappier Git Hooks Installer (Global)
 # Compatible with macOS and Linux
 
 set -e
@@ -13,20 +13,18 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║   Dappier Git Hooks Installer v1.0    ║${NC}"
+echo -e "${BLUE}║        (Global Installation)           ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
 echo ""
 
-# Check if we're in a git repository
-if ! git rev-parse --git-dir > /dev/null 2>&1; then
-    echo -e "${RED}Error: Not a git repository!${NC}"
-    echo "Please run this script from the root of your git repository."
-    exit 1
+# Determine global hooks directory based on OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    HOOKS_DIR="${HOME}/Library/Application Support/Git/hooks"
+else
+    HOOKS_DIR="${HOME}/.config/git/hooks"
 fi
 
-GIT_DIR=$(git rev-parse --git-dir)
-HOOKS_DIR="$GIT_DIR/hooks"
-
-echo -e "${YELLOW}Installing git hooks...${NC}"
+echo -e "${YELLOW}Installing global git hooks...${NC}"
 echo ""
 
 # Create hooks directory if it doesn't exist
@@ -88,9 +86,14 @@ EOF
 # Make the hook executable
 chmod +x "$HOOK_FILE"
 
-echo -e "${GREEN}✓ Git hooks installed successfully!${NC}"
+# Configure git to use the global hooks directory
+git config --global core.hooksPath "$HOOKS_DIR"
+
+echo -e "${GREEN}✓ Global git hooks installed successfully!${NC}"
 echo ""
 echo -e "${BLUE}Hook location:${NC} $HOOK_FILE"
+echo ""
+echo -e "${BLUE}Git config:${NC} core.hooksPath configured globally"
 echo ""
 echo -e "${YELLOW}How it works:${NC}"
 echo "• When you commit with: git commit -m \"initial commit\""
@@ -99,4 +102,4 @@ echo "• Your commit message becomes: \"feat/DP-1234: initial commit\""
 echo ""
 echo -e "${YELLOW}Note:${NC} Hooks are ignored on dev, dev2, staging, and production branches"
 echo ""
-echo -e "${GREEN}Installation complete! Happy committing! 🚀${NC}"
+echo -e "${GREEN}Installation complete! This applies to ALL repositories on your system. 🚀${NC}"

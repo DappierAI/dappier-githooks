@@ -2,6 +2,8 @@
 
 Automatically prepend branch names to your commit messages for better commit tracking and organization.
 
+**🌍 Global Installation** - Install once and use across all your Git repositories!
+
 ## 🎯 What It Does
 
 Transforms your commit messages by automatically adding the branch name as a prefix:
@@ -35,9 +37,7 @@ iex (iwr -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/stag
 #### macOS / Linux
 
 ```bash
-cd /path/to/your/repo
-
-# Download and run the installer
+# Download and run the installer (from any directory)
 curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.sh
 chmod +x install.sh
 ./install.sh
@@ -54,9 +54,7 @@ chmod +x install.sh
 #### Windows (PowerShell)
 
 ```powershell
-cd C:\path\to\your\repo
-
-# Download and run the installer
+# Download and run the installer (from any directory)
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/install.ps1" -OutFile "install.ps1"
 .\install.ps1
 ```
@@ -83,27 +81,32 @@ feat/DP-1234: initial commit
 ## 📋 Requirements
 
 - Git installed on your system
-- A git repository (the installer must be run from within a repo)
 - **macOS/Linux:** Bash shell
 - **Windows:** PowerShell and Git for Windows (with Git Bash)
 
 ## ⚙️ How It Works
 
-The installer creates a `prepare-commit-msg` hook in your repository's `.git/hooks` directory. This hook:
+The installer creates a `prepare-commit-msg` hook in your system's global git hooks directory and configures Git to use it for all repositories. This hook:
 
 1. **Extracts** the current branch name
 2. **Checks** if the commit message already has a prefix
 3. **Prepends** the branch name to your commit message
 4. **Skips** protected branches (dev, dev2, staging, production)
 
+**Hook locations:**
+- **macOS:** `~/Library/Application Support/Git/hooks/prepare-commit-msg`
+- **Linux:** `~/.config/git/hooks/prepare-commit-msg`
+- **Windows:** `%APPDATA%\Git\hooks\prepare-commit-msg`
+
 ## 🎨 Features
 
+- ✅ **Global installation** - applies to all repositories on your system
 - ✅ Works with all Git clients (VS Code, Fork, GitKraken, command line, etc.)
 - ✅ Cross-platform (macOS, Linux, Windows)
 - ✅ Prevents double-prefixing
 - ✅ Skips merge and squash commits
 - ✅ Ignores protected branches
-- ✅ Non-intrusive installation
+- ✅ No per-repository setup needed
 - ✅ Easy to uninstall
 
 ## 📝 Examples
@@ -141,31 +144,52 @@ The hook will **not** add prefixes on these branches:
 
 If you prefer to install manually:
 
-### macOS / Linux
+### macOS
 ```bash
-cd /path/to/your/repo
-curl -O https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/.git/hooks/prepare-commit-msg
-chmod +x .git/hooks/prepare-commit-msg
+mkdir -p "$HOME/Library/Application Support/Git/hooks"
+curl -O "$HOME/Library/Application Support/Git/hooks/prepare-commit-msg" https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/prepare-commit-msg
+chmod +x "$HOME/Library/Application Support/Git/hooks/prepare-commit-msg"
+git config --global core.hooksPath "$HOME/Library/Application Support/Git/hooks"
+```
+
+### Linux
+```bash
+mkdir -p ~/.config/git/hooks
+curl -O ~/.config/git/hooks/prepare-commit-msg https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/prepare-commit-msg
+chmod +x ~/.config/git/hooks/prepare-commit-msg
+git config --global core.hooksPath ~/.config/git/hooks
 ```
 
 ### Windows
 ```powershell
-cd C:\path\to\your\repo
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/.git/hooks/prepare-commit-msg" -OutFile ".git\hooks\prepare-commit-msg"
+$hooksDir = "$env:APPDATA\Git\hooks"
+New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/DappierAI/dappier-githooks/staging/prepare-commit-msg" -OutFile "$hooksDir\prepare-commit-msg"
+git config --global core.hooksPath $hooksDir
 ```
 
 ## 🗑️ Uninstalling
 
-To remove the git hook:
+To remove the global git hook:
 
-### macOS / Linux
+### macOS
 ```bash
-rm .git/hooks/prepare-commit-msg
+rm "$HOME/Library/Application Support/Git/hooks/prepare-commit-msg"
+```
+
+### Linux
+```bash
+rm ~/.config/git/hooks/prepare-commit-msg
 ```
 
 ### Windows
 ```powershell
-Remove-Item .git\hooks\prepare-commit-msg
+Remove-Item "$env:APPDATA\Git\hooks\prepare-commit-msg"
+```
+
+To disable the hooks globally (without removing them):
+```bash
+git config --global --unset core.hooksPath
 ```
 
 ## 🤝 Contributing
@@ -181,16 +205,19 @@ MIT License - feel free to use this in your projects!
 ### Hook not working on Windows
 - Ensure Git for Windows is installed (includes Git Bash)
 - Try running PowerShell as Administrator
-- Verify the hook file exists: `.git/hooks/prepare-commit-msg`
+- Verify the hook file exists: `%APPDATA%\Git\hooks\prepare-commit-msg`
+- Check git config: `git config --global core.hooksPath`
 
 ### Hook not working on macOS/Linux
-- Verify the hook is executable: `ls -la .git/hooks/prepare-commit-msg`
-- If not, make it executable: `chmod +x .git/hooks/prepare-commit-msg`
+- Verify the hook is executable: `ls -la ~/Library/Application\ Support/Git/hooks/prepare-commit-msg` (macOS) or `ls -la ~/.config/git/hooks/prepare-commit-msg` (Linux)
+- Check git config: `git config --global core.hooksPath`
+- If hook is not executable, make it executable: `chmod +x` on the hook file
 
 ### Commits still don't have prefix
 - Check your current branch: `git branch --show-current`
-- Verify you're not on a protected branch
+- Verify you're not on a protected branch (dev, dev2, staging, production)
 - Check if the commit message already has a prefix
+- Verify git config is set: `git config --global core.hooksPath` should return your hooks directory
 
 ### Need help?
 Open an issue on GitHub with:
